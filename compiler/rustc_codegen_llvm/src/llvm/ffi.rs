@@ -181,6 +181,7 @@ pub(crate) enum CallConv {
     AvrNonBlockingInterrupt = 84,
     AvrInterrupt = 85,
     AmdgpuKernel = 91,
+    Z80_SDCCCall0 = 128,
 }
 
 /// Must match the layout of `LLVMLinkage`.

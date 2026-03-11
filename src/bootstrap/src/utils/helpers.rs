@@ -222,7 +222,9 @@ pub fn use_host_linker(target: TargetSelection) -> bool {
         || target.contains("fortanix")
         || target.contains("fuchsia")
         || target.contains("bpf")
-        || target.contains("switch"))
+        || target.contains("switch")
+        || target.triple.starts_with("z80")
+        || target.triple.starts_with("sm83"))
 }
 
 pub fn target_supports_cranelift_backend(target: TargetSelection) -> bool {

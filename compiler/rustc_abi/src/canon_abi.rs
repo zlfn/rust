@@ -50,6 +50,9 @@ pub enum CanonAbi {
 
     /// ABIs relevant to Windows or x86 targets
     X86(X86Call),
+
+    /// ABIs relevant to Z80/SM83 targets
+    Z80(Z80Call),
 }
 
 impl CanonAbi {
@@ -61,7 +64,8 @@ impl CanonAbi {
             | CanonAbi::Arm(_)
             | CanonAbi::GpuKernel
             | CanonAbi::Interrupt(_)
-            | CanonAbi::X86(_) => false,
+            | CanonAbi::X86(_)
+            | CanonAbi::Z80(_) => false,
         }
     }
 }
@@ -90,6 +94,7 @@ impl fmt::Display for CanonAbi {
                 InterruptKind::RiscvMachine => ExternAbi::RiscvInterruptM,
                 InterruptKind::RiscvSupervisor => ExternAbi::RiscvInterruptS,
                 InterruptKind::X86 => ExternAbi::X86Interrupt,
+                InterruptKind::Z80 => ExternAbi::Z80Interrupt,
             },
             CanonAbi::X86(x86_call) => match x86_call {
                 X86Call::Fastcall => ExternAbi::Fastcall { unwind: false },
@@ -98,6 +103,9 @@ impl fmt::Display for CanonAbi {
                 X86Call::Thiscall => ExternAbi::Thiscall { unwind: false },
                 X86Call::Vectorcall => ExternAbi::Vectorcall { unwind: false },
                 X86Call::Win64 => ExternAbi::Win64 { unwind: false },
+            },
+            CanonAbi::Z80(z80_call) => match z80_call {
+                Z80Call::SdccCall0 => ExternAbi::SdccCall0,
             },
         };
         erased_abi.as_str().fmt(f)
@@ -119,6 +127,7 @@ pub enum InterruptKind {
     RiscvMachine,
     RiscvSupervisor,
     X86,
+    Z80,
 }
 
 /// ABIs defined for x86-{32,64}
@@ -146,4 +155,13 @@ pub enum ArmCall {
     Aapcs,
     CCmseNonSecureCall,
     CCmseNonSecureEntry,
+}
+
+/// ABIs defined for Z80/SM83
+#[derive(Copy, Clone, Debug)]
+#[derive(PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "nightly", derive(HashStable_Generic))]
+pub enum Z80Call {
+    /// SDCC __sdcccall(0): all arguments on the stack
+    SdccCall0,
 }

@@ -347,8 +347,12 @@ declare_features! (
     (unstable, abi_ptx, "1.15.0", Some(38788)),
     /// Allows `extern "riscv-interrupt-m" fn()` and `extern "riscv-interrupt-s" fn()`.
     (unstable, abi_riscv_interrupt, "1.73.0", Some(111889)),
+    /// Allows `extern "sdcccall-0" fn()`.
+    (unstable, abi_sdcccall0, "CURRENT_RUSTC_VERSION", None),
     /// Allows `extern "x86-interrupt" fn()`.
     (unstable, abi_x86_interrupt, "1.17.0", Some(40180)),
+    /// Allows `extern "z80-interrupt" fn()`.
+    (unstable, abi_z80_interrupt, "CURRENT_RUSTC_VERSION", None),
     /// Allows additional const parameter types, such as `[u8; 10]` or user defined types
     (unstable, adt_const_params, "1.56.0", Some(95174)),
     /// Allows defining an `#[alloc_error_handler]`.

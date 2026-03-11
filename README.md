@@ -1,58 +1,47 @@
-<div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rust-lang/www.rust-lang.org/master/static/images/rust-social-wide-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/rust-lang/www.rust-lang.org/master/static/images/rust-social-wide-light.svg">
-    <img alt="The Rust Programming Language: A language empowering everyone to build reliable and efficient software"
-         src="https://raw.githubusercontent.com/rust-lang/www.rust-lang.org/master/static/images/rust-social-wide-light.svg"
-         width="50%">
-  </picture>
+# Rust-Z80
 
-[Website][Rust] | [Getting started] | [Learn] | [Documentation] | [Contributing]
-</div>
+A fork of the Rust compiler with Z80 and SM83 (Game Boy) target support,
+using the [llvm-z80](https://github.com/llvm-z80/llvm-z80) LLVM backend.
 
-This is the main source code repository for [Rust]. It contains the compiler,
-standard library, and documentation.
+## Supported targets
 
-[Rust]: https://www.rust-lang.org/
-[Getting Started]: https://www.rust-lang.org/learn/get-started
-[Learn]: https://www.rust-lang.org/learn
-[Documentation]: https://www.rust-lang.org/learn#learn-use
-[Contributing]: CONTRIBUTING.md
+- `z80-unknown-none-elf`
+- `sm83-nintendo-none-elf`
 
-## Why Rust?
+## Building
 
-- **Performance:** Fast and memory-efficient, suitable for critical services, embedded devices, and easily integrated with other languages.
+1. Build the llvm-z80 LLVM backend:
 
-- **Reliability:** Our rich type system and ownership model ensure memory and thread safety, reducing bugs at compile-time.
+```sh
+git clone https://github.com/llvm-z80/llvm-z80.git
+cd llvm-z80
+cmake -S llvm -B build -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DLLVM_TARGETS_TO_BUILD="Z80"
+ninja -C build
+```
 
-- **Productivity:** Comprehensive documentation, a compiler committed to providing great diagnostics, and advanced tooling including package manager and build tool ([Cargo]), auto-formatter ([rustfmt]), linter ([Clippy]) and editor support ([rust-analyzer]).
+2. Create `bootstrap.toml` in the Rust source root:
 
-[Cargo]: https://github.com/rust-lang/cargo
-[rustfmt]: https://github.com/rust-lang/rustfmt
-[Clippy]: https://github.com/rust-lang/rust-clippy
-[rust-analyzer]: https://github.com/rust-lang/rust-analyzer
+```toml
+[llvm]
+download-ci-llvm = false
 
-## Quick Start
+[target.x86_64-unknown-linux-gnu]
+llvm-config = "/path/to/llvm-z80/build/bin/llvm-config"
+llvm-has-rust-patches = false
+```
 
-Read ["Installation"] from [The Book].
+3. Build the compiler:
 
-["Installation"]: https://doc.rust-lang.org/book/ch01-01-installation.html
-[The Book]: https://doc.rust-lang.org/book/index.html
+```sh
+./x.py build --target z80-unknown-none-elf library
+```
 
-## Installing from Source
+## New ABIs
 
-If you really want to install from source (though this is not recommended), see
-[INSTALL.md](INSTALL.md).
-
-## Getting Help
-
-See https://www.rust-lang.org/community for a list of chat platforms and forums.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-For a detailed explanation of the compiler's architecture and how to begin contributing, see the [rustc-dev-guide](https://rustc-dev-guide.rust-lang.org/).
+- `extern "sdcccall-0"` — SDCC calling convention (feature gate: `abi_sdcccall0`)
+- `extern "z80-interrupt"` — Z80 interrupt handler (feature gate: `abi_z80_interrupt`)
 
 ## License
 
@@ -62,18 +51,3 @@ licenses.
 
 See [LICENSE-APACHE](LICENSE-APACHE), [LICENSE-MIT](LICENSE-MIT), and
 [COPYRIGHT](COPYRIGHT) for details.
-
-## Trademark
-
-[The Rust Foundation][rust-foundation] owns and protects the Rust and Cargo
-trademarks and logos (the "Rust Trademarks").
-
-If you want to use these names or brands, please read the
-[Rust language trademark policy][trademark-policy].
-
-Third-party logos may be subject to third-party copyrights and trademarks. See
-[Licenses][policies-licenses] for details.
-
-[rust-foundation]: https://rustfoundation.org/
-[trademark-policy]: https://rustfoundation.org/policy/rust-trademark-policy/
-[policies-licenses]: https://www.rust-lang.org/policies/licenses

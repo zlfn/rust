@@ -92,7 +92,7 @@ unsafe fn configure_llvm(sess: &Session) {
         if sess.target.generate_arange_section
             && !sess.opts.unstable_opts.no_generate_arange_section
         {
-            add("-generate-arange-section", false);
+            add("--generate-arange-section", false);
         }
 
         match sess.opts.unstable_opts.merge_functions.unwrap_or(sess.target.merge_functions) {

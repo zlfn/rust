@@ -1007,7 +1007,8 @@ impl Target {
             Arch::Sparc | Arch::Sparc64 => SPARC_FEATURES,
             Arch::M68k => M68K_FEATURES,
             Arch::Avr => AVR_FEATURES,
-            Arch::AmdGpu | Arch::Msp430 | Arch::SpirV | Arch::Xtensa | Arch::Other(_) => &[],
+            Arch::AmdGpu | Arch::Msp430 | Arch::Sm83 | Arch::SpirV | Arch::Xtensa | Arch::Z80
+            | Arch::Other(_) => &[],
         }
     }
 
@@ -1033,7 +1034,8 @@ impl Target {
             Arch::CSky => CSKY_FEATURES_FOR_CORRECT_FIXED_LENGTH_VECTOR_ABI,
             // FIXME: for some tier3 targets, we are overly cautious and always give warnings
             // when passing args in vector registers.
-            Arch::Msp430 | Arch::SpirV | Arch::Xtensa | Arch::Other(_) => &[],
+            Arch::Msp430 | Arch::Sm83 | Arch::SpirV | Arch::Xtensa | Arch::Z80
+            | Arch::Other(_) => &[],
         }
     }
 

@@ -268,6 +268,7 @@ pub fn conv_to_fn_attribute<'gcc>(conv: CanonAbi, arch: &Arch) -> Option<FnAttri
             InterruptKind::RiscvMachine => FnAttribute::RiscvInterrupt("machine"),
             InterruptKind::RiscvSupervisor => FnAttribute::RiscvInterrupt("supervisor"),
             InterruptKind::X86 => FnAttribute::X86Interrupt,
+            InterruptKind::Z80 => return None,
         },
         CanonAbi::X86(x86_call) => match x86_call {
             X86Call::Fastcall => FnAttribute::X86FastCall,
@@ -279,6 +280,7 @@ pub fn conv_to_fn_attribute<'gcc>(conv: CanonAbi, arch: &Arch) -> Option<FnAttri
             X86Call::SysV64 => FnAttribute::X86SysvAbi,
             X86Call::Win64 => FnAttribute::X86MsAbi,
         },
+        CanonAbi::Z80(_) => return None,
     };
     Some(attribute)
 }

@@ -424,7 +424,8 @@ impl<'a> AstValidator<'a> {
                     | CanonAbi::RustCold
                     | CanonAbi::RustPreserveNone
                     | CanonAbi::Arm(_)
-                    | CanonAbi::X86(_) => { /* nothing to check */ }
+                    | CanonAbi::X86(_)
+                    | CanonAbi::Z80(_) => { /* nothing to check */ }
 
                     CanonAbi::GpuKernel => {
                         // An `extern "gpu-kernel"` function cannot be `async` and/or `gen`.

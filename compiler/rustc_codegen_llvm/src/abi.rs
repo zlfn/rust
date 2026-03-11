@@ -3,7 +3,7 @@ use std::cmp;
 use libc::c_uint;
 use rustc_abi::{
     ArmCall, BackendRepr, CanonAbi, HasDataLayout, InterruptKind, Primitive, Reg, RegKind, Size,
-    X86Call,
+    X86Call, Z80Call,
 };
 use rustc_codegen_ssa::MemFlags;
 use rustc_codegen_ssa::mir::operand::{OperandRef, OperandValue};
@@ -713,6 +713,7 @@ pub(crate) fn to_llvm_calling_convention(sess: &Session, abi: CanonAbi) -> llvm:
             InterruptKind::Msp430 => llvm::Msp430Intr,
             InterruptKind::RiscvMachine | InterruptKind::RiscvSupervisor => llvm::CCallConv,
             InterruptKind::X86 => llvm::X86_Intr,
+            InterruptKind::Z80 => llvm::CCallConv,
         },
         CanonAbi::Arm(arm_call) => match arm_call {
             ArmCall::Aapcs => llvm::ArmAapcsCallConv,
@@ -725,6 +726,9 @@ pub(crate) fn to_llvm_calling_convention(sess: &Session, abi: CanonAbi) -> llvm:
             X86Call::Thiscall => llvm::X86_ThisCall,
             X86Call::Vectorcall => llvm::X86_VectorCall,
             X86Call::Win64 => llvm::X86_64_Win64,
+        },
+        CanonAbi::Z80(z80_call) => match z80_call {
+            Z80Call::SdccCall0 => llvm::Z80_SDCCCall0,
         },
     }
 }

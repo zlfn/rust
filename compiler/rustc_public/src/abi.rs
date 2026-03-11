@@ -477,6 +477,9 @@ pub enum CallConvention {
     AvrNonBlockingInterrupt,
 
     RiscvInterrupt,
+
+    Z80Interrupt,
+    Z80SdccCall0,
 }
 
 #[non_exhaustive]

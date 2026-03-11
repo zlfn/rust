@@ -238,4 +238,12 @@ pub fn initialize_available_targets() {
         LLVMInitializeBPFAsmPrinter,
         LLVMInitializeBPFAsmParser
     );
+    init_target!(
+        llvm_component = "z80",
+        LLVMInitializeZ80TargetInfo,
+        LLVMInitializeZ80Target,
+        LLVMInitializeZ80TargetMC,
+        LLVMInitializeZ80AsmPrinter,
+        LLVMInitializeZ80AsmParser
+    );
 }

@@ -199,7 +199,8 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
             | CanonAbi::RustCold
             | CanonAbi::RustPreserveNone
             | CanonAbi::Arm(_)
-            | CanonAbi::X86(_) => {}
+            | CanonAbi::X86(_)
+            | CanonAbi::Z80(_) => {}
         }
     }
 

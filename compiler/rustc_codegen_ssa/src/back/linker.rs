@@ -382,7 +382,9 @@ impl<'a> GccLinker<'a> {
         // * On OSX they have their own linker, not binutils'
         // * For WebAssembly the only functional linker is LLD, which doesn't
         //   support hint flags
-        !self.sess.target.is_like_darwin && !self.sess.target.is_like_wasm
+        !self.sess.target.is_like_darwin
+            && !self.sess.target.is_like_wasm
+            && !(self.is_ld && !self.is_gnu)
     }
 
     // Some platforms take hints about whether a library is static or dynamic.

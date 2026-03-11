@@ -87,6 +87,11 @@ pub enum ExternAbi {
     RiscvInterruptS,
     X86Interrupt,
 
+    /* z80 */
+    /// SDCC __sdcccall(0): all arguments passed on the stack
+    SdccCall0,
+    Z80Interrupt,
+
     /* x86 */
     /// `ExternAbi::C` but spelled funny because x86
     Cdecl {
@@ -171,6 +176,7 @@ abi_impls! {
             RustCold =><= "rust-cold",
             RustInvalid =><= "rust-invalid",
             RustPreserveNone =><= "rust-preserve-none",
+            SdccCall0 =><= "sdcccall-0",
             Stdcall { unwind: false } =><= "stdcall",
             Stdcall { unwind: true } =><= "stdcall-unwind",
             System { unwind: false } =><= "system",
@@ -185,6 +191,7 @@ abi_impls! {
             Win64 { unwind: false } =><= "win64",
             Win64 { unwind: true } =><= "win64-unwind",
             X86Interrupt =><= "x86-interrupt",
+            Z80Interrupt =><= "z80-interrupt",
     }
 }
 
@@ -296,7 +303,8 @@ impl ExternAbi {
             | Self::Msp430Interrupt
             | Self::RiscvInterruptM
             | Self::RiscvInterruptS
-            | Self::X86Interrupt => {
+            | Self::X86Interrupt
+            | Self::Z80Interrupt => {
                 // See https://godbolt.org/z/Edfjnxxcq. Interrupts cannot be called directly.
                 false
             }
@@ -324,7 +332,8 @@ impl ExternAbi {
             | Self::Vectorcall { .. }
             | Self::SysV64 { .. }
             | Self::Win64 { .. }
-            | Self::RustPreserveNone => true,
+            | Self::RustPreserveNone
+            | Self::SdccCall0 => true,
         }
     }
 }

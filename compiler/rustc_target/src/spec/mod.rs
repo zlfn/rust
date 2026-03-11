@@ -1560,6 +1560,9 @@ supported_targets! {
 
     ("avr-none", avr_none),
 
+    ("z80-unknown-none-elf", z80_unknown_none_elf),
+    ("sm83-nintendo-none-elf", sm83_nintendo_none_elf),
+
     ("x86_64-unknown-l4re-uclibc", x86_64_unknown_l4re_uclibc),
 
     ("aarch64-unknown-redox", aarch64_unknown_redox),
@@ -1890,6 +1893,7 @@ crate::target_spec_enum! {
         RiscV32 = "riscv32",
         RiscV64 = "riscv64",
         S390x = "s390x",
+        Sm83 = "sm83",
         Sparc = "sparc",
         Sparc64 = "sparc64",
         SpirV = "spirv",
@@ -1898,6 +1902,7 @@ crate::target_spec_enum! {
         X86 = "x86",
         X86_64 = "x86_64",
         Xtensa = "xtensa",
+        Z80 = "z80",
     }
     other_variant = Other;
 }
@@ -1927,6 +1932,7 @@ impl Arch {
             Self::RiscV32 => sym::riscv32,
             Self::RiscV64 => sym::riscv64,
             Self::S390x => sym::s390x,
+            Self::Sm83 => sym::sm83,
             Self::Sparc => sym::sparc,
             Self::Sparc64 => sym::sparc64,
             Self::SpirV => sym::spirv,
@@ -1935,6 +1941,7 @@ impl Arch {
             Self::X86 => sym::x86,
             Self::X86_64 => sym::x86_64,
             Self::Xtensa => sym::xtensa,
+            Self::Z80 => sym::z80,
             Self::Other(name) => rustc_span::Symbol::intern(name),
         }
     }
@@ -1952,8 +1959,8 @@ impl Arch {
 
             AArch64 | AmdGpu | Arm | Arm64EC | Avr | CSky | Hexagon | LoongArch32 | LoongArch64
             | M68k | Mips | Mips32r6 | Mips64 | Mips64r6 | Msp430 | Nvptx64 | PowerPC
-            | PowerPC64 | RiscV32 | RiscV64 | S390x | Sparc | Sparc64 | Wasm32 | Wasm64 | X86
-            | X86_64 | Xtensa => true,
+            | PowerPC64 | RiscV32 | RiscV64 | S390x | Sm83 | Sparc | Sparc64 | Wasm32 | Wasm64
+            | X86 | X86_64 | Xtensa | Z80 => true,
         }
     }
 
@@ -1965,8 +1972,8 @@ impl Arch {
             AArch64 | RiscV32 | RiscV64 => true,
             AmdGpu | Arm | Arm64EC | Avr | Bpf | CSky | Hexagon | LoongArch32 | LoongArch64
             | M68k | Mips | Mips32r6 | Mips64 | Mips64r6 | Msp430 | Nvptx64 | PowerPC
-            | PowerPC64 | S390x | Sparc | Sparc64 | SpirV | Wasm32 | Wasm64 | X86 | X86_64
-            | Xtensa | Other(_) => false,
+            | PowerPC64 | S390x | Sm83 | Sparc | Sparc64 | SpirV | Wasm32 | Wasm64 | X86
+            | X86_64 | Xtensa | Z80 | Other(_) => false,
         }
     }
 }
@@ -3497,8 +3504,10 @@ impl Target {
             Arch::AmdGpu
             | Arch::Nvptx64
             | Arch::SpirV
+            | Arch::Sm83
             | Arch::Wasm32
             | Arch::Wasm64
+            | Arch::Z80
             | Arch::Other(_) => return None,
         })
     }

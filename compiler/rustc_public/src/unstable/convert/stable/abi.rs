@@ -2,7 +2,7 @@
 
 #![allow(rustc::usage_of_qualified_ty)]
 
-use rustc_abi::{ArmCall, CanonAbi, InterruptKind, X86Call};
+use rustc_abi::{ArmCall, CanonAbi, InterruptKind, X86Call, Z80Call};
 use rustc_middle::ty;
 use rustc_public_bridge::Tables;
 use rustc_public_bridge::context::CompilerCtxt;
@@ -139,6 +139,7 @@ impl<'tcx> Stable<'tcx> for CanonAbi {
                     CallConvention::RiscvInterrupt
                 }
                 InterruptKind::X86 => CallConvention::X86Intr,
+                InterruptKind::Z80 => CallConvention::Z80Interrupt,
             },
             CanonAbi::X86(x86_call) => match x86_call {
                 X86Call::Fastcall => CallConvention::X86Fastcall,
@@ -147,6 +148,9 @@ impl<'tcx> Stable<'tcx> for CanonAbi {
                 X86Call::Thiscall => CallConvention::X86ThisCall,
                 X86Call::Vectorcall => CallConvention::X86VectorCall,
                 X86Call::Win64 => CallConvention::X86_64Win64,
+            },
+            CanonAbi::Z80(z80_call) => match z80_call {
+                Z80Call::SdccCall0 => CallConvention::Z80SdccCall0,
             },
         }
     }

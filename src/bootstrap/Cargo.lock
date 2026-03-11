@@ -43,7 +43,7 @@ name = "bootstrap"
 version = "0.0.0"
 dependencies = [
  "build_helper",
- "cc",
+ "cc 1.2.56 (git+https://github.com/llvm-z80/cc-rs.git?branch=main)",
  "chrono",
  "clap",
  "clap_complete",
@@ -95,10 +95,20 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.2.28"
+version = "1.2.56"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4ad45f4f74e4e20eaa392913b7b33a7091c87e59628f4dd27888205ad888843c"
+checksum = "aebf35691d1bfb0ac386a69bac2fde4dd276fb618cf8bf4f5318fe285e821bb2"
 dependencies = [
+ "find-msvc-tools 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
+ "shlex",
+]
+
+[[package]]
+name = "cc"
+version = "1.2.56"
+source = "git+https://github.com/llvm-z80/cc-rs.git?branch=main#6029254cc6a923ed607968a43ed9e4de7d647843"
+dependencies = [
+ "find-msvc-tools 0.1.9 (git+https://github.com/llvm-z80/cc-rs.git?branch=main)",
  "shlex",
 ]
 
@@ -170,7 +180,7 @@ version = "0.1.54"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e7caa3f9de89ddbe2c607f4101924c5abec803763ae9534e4f4d7d8f84aa81f0"
 dependencies = [
- "cc",
+ "cc 1.2.56 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -278,6 +288,17 @@ dependencies = [
  "libredox",
  "windows-sys 0.60.2",
 ]
+
+[[package]]
+name = "find-msvc-tools"
+version = "0.1.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5baebc0774151f905a1a2cc41989300b1e6fbb29aff0ceffa1064fdd3088d582"
+
+[[package]]
+name = "find-msvc-tools"
+version = "0.1.9"
+source = "git+https://github.com/llvm-z80/cc-rs.git?branch=main#6029254cc6a923ed607968a43ed9e4de7d647843"
 
 [[package]]
 name = "generic-array"
@@ -413,7 +434,7 @@ version = "0.1.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5fda04ab3764e6cde78b9974eec4f779acaba7c4e84b36eca3cf77c581b85d27"
 dependencies = [
- "cc",
+ "cc 1.2.56 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc",
  "pkg-config",
 ]

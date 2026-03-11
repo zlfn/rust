@@ -59,7 +59,7 @@ mod layout;
 mod tests;
 
 pub use callconv::{Heterogeneous, HomogeneousAggregate, Reg, RegKind};
-pub use canon_abi::{ArmCall, CanonAbi, InterruptKind, X86Call};
+pub use canon_abi::{ArmCall, CanonAbi, InterruptKind, X86Call, Z80Call};
 #[cfg(feature = "nightly")]
 pub use extern_abi::CVariadicStatus;
 pub use extern_abi::{ExternAbi, all_names};

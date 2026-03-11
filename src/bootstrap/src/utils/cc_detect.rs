@@ -49,6 +49,7 @@ fn new_cc_build(build: &Build, target: TargetSelection) -> cc::Build {
                 cfg.static_crt(true);
             }
             if target.contains("musl") {
+                #[allow(deprecated)]
                 cfg.static_flag(true);
             }
         }

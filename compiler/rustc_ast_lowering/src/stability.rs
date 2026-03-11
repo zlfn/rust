@@ -131,6 +131,16 @@ pub fn extern_abi_stability(abi: ExternAbi) -> Result<(), UnstableAbi> {
             feature: sym::abi_riscv_interrupt,
             explain: GateReason::Experimental,
         }),
+        ExternAbi::SdccCall0 => Err(UnstableAbi {
+            abi,
+            feature: sym::abi_sdcccall0,
+            explain: GateReason::Experimental,
+        }),
+        ExternAbi::Z80Interrupt => Err(UnstableAbi {
+            abi,
+            feature: sym::abi_z80_interrupt,
+            explain: GateReason::Experimental,
+        }),
         ExternAbi::CmseNonSecureCall => Err(UnstableAbi {
             abi,
             feature: sym::abi_cmse_nonsecure_call,

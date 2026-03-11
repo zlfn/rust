@@ -1,4 +1,4 @@
-use rustc_abi::{ArmCall, CanonAbi, ExternAbi, InterruptKind, X86Call};
+use rustc_abi::{ArmCall, CanonAbi, ExternAbi, InterruptKind, X86Call, Z80Call};
 
 use crate::spec::{Arch, Target};
 
@@ -56,6 +56,7 @@ impl AbiMap {
                 ArmVer::Other
             }),
             Arch::Avr => ArchKind::Avr,
+            Arch::Z80 | Arch::Sm83 => ArchKind::Z80,
             Arch::LoongArch32 | Arch::LoongArch64 => ArchKind::LoongArch,
             Arch::Msp430 => ArchKind::Msp430,
             Arch::Nvptx64 => ArchKind::Nvptx,
@@ -180,6 +181,14 @@ impl AbiMap {
             (ExternAbi::X86Interrupt, ArchKind::X86 | ArchKind::X86_64) => {
                 CanonAbi::Interrupt(InterruptKind::X86)
             }
+            (ExternAbi::Z80Interrupt, ArchKind::Z80) => {
+                CanonAbi::Interrupt(InterruptKind::Z80)
+            }
+
+            /* z80 */
+            (ExternAbi::SdccCall0, ArchKind::Z80) => CanonAbi::Z80(Z80Call::SdccCall0),
+            (ExternAbi::SdccCall0 | ExternAbi::Z80Interrupt, _) => return AbiMapping::Invalid,
+
             (
                 ExternAbi::AvrInterrupt
                 | ExternAbi::AvrNonBlockingInterrupt
@@ -207,6 +216,7 @@ enum ArchKind {
     Riscv,
     X86,
     X86_64,
+    Z80,
     /// Architectures which don't need other considerations for ABI lowering
     Other,
 }

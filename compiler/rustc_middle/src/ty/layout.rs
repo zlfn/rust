@@ -1318,6 +1318,8 @@ pub fn fn_can_unwind(tcx: TyCtxt<'_>, fn_def_id: Option<DefId>, abi: ExternAbi) 
         | RiscvInterruptM
         | RiscvInterruptS
         | RustInvalid
+        | SdccCall0
+        | Z80Interrupt
         | Unadjusted => false,
         Rust | RustCall | RustCold | RustPreserveNone => tcx.sess.panic_strategy().unwinds(),
     }

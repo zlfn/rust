@@ -1133,6 +1133,8 @@ pub enum Abi {
     RustPreserveNone,
     RustInvalid,
     Custom,
+    SdccCall0,
+    Z80Interrupt,
 }
 
 /// A binder represents a possibly generic type and its bound vars.
